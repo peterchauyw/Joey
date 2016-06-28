@@ -37,7 +37,7 @@ public class BleManager implements BleGattExecutor.BleExecutorListener {
     private Context mContext;
 
     private BluetoothDevice mDevice;
-    private String mDeviceAddress;
+    private final String mDeviceAddress = "F4:4F:8C:69:E4:B5";
     private int mConnectionState = STATE_DISCONNECTED;
 
     private BleManagerListener mBleListener;
@@ -137,7 +137,7 @@ public class BleManager implements BleGattExecutor.BleExecutorListener {
 */
 
         Log.d(TAG, "Trying to create a new connection.");
-        mDeviceAddress = address;
+//        mDeviceAddress = address;
         mConnectionState = STATE_CONNECTING;
         if (mBleListener != null) {
             mBleListener.onConnecting();
@@ -205,7 +205,7 @@ public class BleManager implements BleGattExecutor.BleExecutorListener {
         if (mGatt != null) {
             mGatt.close();
             mGatt = null;
-            mDeviceAddress = null;
+//            mDeviceAddress = null;
             mDevice = null;
         }
     }

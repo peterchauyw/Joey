@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothGattService;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -49,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Handler;
 
 import static android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
     private final static long kMinDelayToUpdateUI = 200;    // in milliseconds
     private static final String kGenericAttributeService = "00001801-0000-1000-8000-00805F9B34FB";
     private static final String kServiceChangedCharacteristic = "00002A05-0000-1000-8000-00805F9B34FB";
+
+    private static final String JoeyDeviceMac= "F4:4F:8C:69:E4:B5";
 
     // Components
     private final static int kComponentsNameIds[] = {
@@ -199,6 +203,22 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
                 BleUtils.resetBluetoothAdapter(this, this);
             }
         }
+
+        boolean isScanning = mScanner != null && mScanner.isScanning();
+        if (isScanning) {
+            stopScanning();
+        } else {
+            startScan(null, JoeyDeviceMac);
+        }
+
+        final android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                onClickDeviceConnect();
+            }
+        }, 5000);
     }
 
     @Override
@@ -543,10 +563,12 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
         }
     }
 
-    public void onClickDeviceConnect(View view) {
+//    public void onClickDeviceConnect(View view) {
+    public void onClickDeviceConnect() {
         stopScanning();
 
-        final int scannedDeviceIndex = (Integer) view.getTag();
+//        final int scannedDeviceIndex = (Integer) view.getTag();
+        final int scannedDeviceIndex = 0;
         if (scannedDeviceIndex < mScannedDevices.size()) {
             mSelectedDeviceData = mScannedDevices.get(scannedDeviceIndex);
             BluetoothDevice device = mSelectedDeviceData.device;
@@ -565,14 +587,14 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
         }
     }
 
-    public void onClickScan(View view) {
-        boolean isScanning = mScanner != null && mScanner.isScanning();
-        if (isScanning) {
-            stopScanning();
-        } else {
-            startScan(null, null);
-        }
-    }
+//    public void onClickScan(View view) {
+//        boolean isScanning = mScanner != null && mScanner.isScanning();
+//        if (isScanning) {
+//            stopScanning();
+//        } else {
+//            startScan(null, JoeyDeviceMac);
+//        }
+//    }
     // endregion
 
     // region Scan
