@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
 
     private static UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static UUID[] services;
-    private static final String JoeyDeviceMac= "F4:4F:8C:69:E4:B5";
+    private static final String JoeyDeviceName = "Adafruit Bluefruit LE";
+    private static final String JoeyDeviceMac = "F4:4F:8C:69:E4:B5";
 
     // Components
     private final static int kComponentsNameIds[] = {
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
         if (isScanning) {
             stopScanning();
         } else {
-            startScan(services, JoeyDeviceMac);
+            startScan(services, JoeyDeviceName);
         }
 
         final android.os.Handler handler = new android.os.Handler();
@@ -614,14 +615,14 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
         }
     }
 
-//    public void onClickScan(View view) {
-//        boolean isScanning = mScanner != null && mScanner.isScanning();
-//        if (isScanning) {
-//            stopScanning();
-//        } else {
-//            startScan(null, JoeyDeviceMac);
-//        }
-//    }
+    public void onClickScan(View view) {
+        boolean isScanning = mScanner != null && mScanner.isScanning();
+        if (isScanning) {
+            stopScanning();
+        } else {
+            startScan(services, JoeyDeviceName);
+        }
+    }
     // endregion
 
     // region Scan
