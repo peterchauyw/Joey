@@ -38,6 +38,7 @@ public class BleManager implements BleGattExecutor.BleExecutorListener {
 
     private BluetoothDevice mDevice;
     private final String mDeviceAddress = "F4:4F:8C:69:E4:B5";
+
     private int mConnectionState = STATE_DISCONNECTED;
 
     private BleManagerListener mBleListener;

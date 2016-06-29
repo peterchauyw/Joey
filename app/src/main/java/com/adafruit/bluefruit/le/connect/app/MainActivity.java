@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
             @Override
             public void run() {
                 // Do something after 5s = 5000ms
-                onClickDeviceConnect();
+                autoDeviceConnect();
             }
         }, 5000);
     }
@@ -563,8 +563,30 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
         }
     }
 
-//    public void onClickDeviceConnect(View view) {
-    public void onClickDeviceConnect() {
+    public void onClickDeviceConnect(View view) {
+        stopScanning();
+
+//        final int scannedDeviceIndex = (Integer) view.getTag();
+        final int scannedDeviceIndex = 0;
+        if (scannedDeviceIndex < mScannedDevices.size()) {
+            mSelectedDeviceData = mScannedDevices.get(scannedDeviceIndex);
+            BluetoothDevice device = mSelectedDeviceData.device;
+
+            mBleManager.setBleListener(MainActivity.this);           // Force set listener (could be still checking for updates...)
+
+            if (mSelectedDeviceData.type == BluetoothDeviceData.kType_Uart) {      // if is uart, show all the available activities
+                showChooseDeviceServiceDialog(device);
+            } else {                          // if no uart, then go directly to info
+                Log.d(TAG, "No UART service found. Go to InfoActivity");
+                mComponentToStartWhenConnected = InfoActivity.class;
+                connect(device);
+            }
+        } else {
+            Log.w(TAG, "onClickDeviceConnect index does not exist: " + scannedDeviceIndex);
+        }
+    }
+
+    public void autoDeviceConnect() {
         stopScanning();
 
 //        final int scannedDeviceIndex = (Integer) view.getTag();
