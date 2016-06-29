@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
     private static final String kGenericAttributeService = "00001801-0000-1000-8000-00805F9B34FB";
     private static final String kServiceChangedCharacteristic = "00002A05-0000-1000-8000-00805F9B34FB";
 
+    private static UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static UUID[] services;
     private static final String JoeyDeviceMac= "F4:4F:8C:69:E4:B5";
 
     // Components
@@ -204,11 +206,14 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
             }
         }
 
+        services = new UUID[1];
+        services[0] = BTMODULEUUID;
+
         boolean isScanning = mScanner != null && mScanner.isScanning();
         if (isScanning) {
             stopScanning();
         } else {
-            startScan(null, JoeyDeviceMac);
+            startScan(services, JoeyDeviceMac);
         }
 
         final android.os.Handler handler = new android.os.Handler();
