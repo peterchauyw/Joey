@@ -941,9 +941,9 @@ public class MainActivity extends AppCompatActivity implements BleManager.BleMan
                 }
             }
 
-            if (!isCheckingFirmware) {
-                onFirmwareUpdatesChecked(false, null, null, null);
-            }
+//            if (!isCheckingFirmware) {
+//                onFirmwareUpdatesChecked(false, null, null, null);
+//            }
         }
     }
 
